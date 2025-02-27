@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Song</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}">
+</head>
+<body>
+    <h1>Edit Song</h1>
+    <form method="POST">
+        <label>Title</label>
+        <input type="text" name="title" value="{{ music.title }}" required>
+        <br>
+        <label>Artist</label>
+        <input type="text" name="artist" value="{{ music.artist }}" required>
+        <br>
+        <button type="submit">Update Song</button>
+    </form>
+</body>
+</html>

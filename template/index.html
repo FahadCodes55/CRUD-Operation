@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Music Web Application</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}">
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+    rel="stylesheet"/>
+
+    <script>
+        function toggleAudio(audioId, buttonId) {
+            var audioElement = document.getElementById(audioId);
+            var buttonElement = document.getElementById(buttonId);
+            if (audioElement.paused) {
+                audioElement.play();
+                buttonElement.textContent = 'Stop';
+            } else {
+                audioElement.pause();
+                audioElement.currentTime = 0; // Reset to the beginning
+                buttonElement.textContent = 'Play';
+            }
+        }
+    </script>
+
+</head>
+<body>
+
+
+     <h1>Smash 2.0 Music App</h1>
+    <form action="/add_song" method="POST">
+        <label>Title</label>
+        <input type="text" name="title" id="title" placeholder="Song Title" required>
+        <br>
+        <label>Singer</label>
+        <input type="text" name="artist" id="artist" placeholder="Singer Name" required>
+        <br>
+        <button type="submit">Add Song</button>
+    </form>
+
+    <ul>
+        {% for song in music %}
+            <li>
+                <i class="ri-music-2-fill"></i>
+                {{ song.title }} | {{ song.artist }}
+                <a href="{{ url_for('delete', del_id = song.id) }}"> <i class="ri-delete-bin-line"></i> </a>
+                <a href="{{ url_for('edit', edit_id = song.id) }}"> <i class="ri-edit-2-fill"></i> </a>
+
+
+                <button id="button-{{ song.id }}" onclick="toggleAudio('audio-{{ song.id }}', 'button-{{ song.id }}')">Play</button>
+                <audio id="audio-{{ song.id }}" src="{{ url_for('static', filename='audio/' + song.title + '.mp3') }}"></audio>
+
+
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
